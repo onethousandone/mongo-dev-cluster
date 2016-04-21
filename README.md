@@ -5,6 +5,7 @@ purposes.
 ## Requirements
 * Docker
 * jsawk
+* mongo shell
 
 ## What you get
 This will start 10 docker images:

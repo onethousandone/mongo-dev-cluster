@@ -2,7 +2,8 @@
 
 #VARIABLES
 #------------------------------------------------------------------------------#
-$MONGO_IMAGE="mongo:3.2"
+MONGO_IMAGE="mongo:3.2"
+DOCKER_IP=$(docker-machine ip default)
 
 #FUNCTIONS
 #------------------------------------------------------------------------------#
@@ -88,6 +89,9 @@ docker run \
   --replSet rs2 \
   --noprealloc --smallfiles
 
+log "Sleeping for 5 sec..."
+sleep 5
+
 #get ip addresses etc.
 log "Gathering information from docker..."
 RS1_SRV1_IP_PRIV=$(docker inspect rs1_srv1 | jsawk -a 'return this[0].NetworkSettings.IPAddress')
@@ -97,10 +101,12 @@ RS2_SRV1_IP_PRIV=$(docker inspect rs2_srv1 | jsawk -a 'return this[0].NetworkSet
 RS2_SRV2_IP_PRIV=$(docker inspect rs2_srv2 | jsawk -a 'return this[0].NetworkSettings.IPAddress')
 RS2_SRV3_IP_PRIV=$(docker inspect rs2_srv3 | jsawk -a 'return this[0].NetworkSettings.IPAddress')
 
-RS1_SRV1_IP_PUB=$(docker inspect rs1_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
+RS1_SRV1_IP_PUB=${DOCKER_IP}
+#RS1_SRV1_IP_PUB=$(docker inspect rs1_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
 RS1_SRV1_PORT_PUB=$(docker inspect rs1_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostPort"]')
 
-RS2_SRV1_IP_PUB=$(docker inspect rs2_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
+RS2_SRV1_IP_PUB=${DOCKER_IP}
+#RS2_SRV1_IP_PUB=$(docker inspect rs2_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
 RS2_SRV1_PORT_PUB=$(docker inspect rs2_srv1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostPort"]')
 
 #configure replica sets
@@ -156,7 +162,8 @@ docker run \
 
 #get ipaddresses
 log "Gathering information from docker..."
-ROUTER_IP_PUB=$(docker inspect mongos1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
+ROUTER_IP_PUB=${DOCKER_IP}
+#ROUTER_IP_PUB=$(docker inspect mongos1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostIp"]')
 ROUTER_PORT_PUB=$(docker inspect mongos1 | jsawk -a 'return this[0].NetworkSettings.Ports["27017/tcp"][0]["HostPort"]')
 
 log "Sleeping for 5 sec..."
