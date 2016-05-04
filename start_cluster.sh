@@ -3,7 +3,8 @@
 #VARIABLES
 #------------------------------------------------------------------------------#
 MONGO_IMAGE="mongo:3.2"
-DOCKER_IP=$(docker-machine ip default)
+DOCKER_MACHINE_NAME=${DOCKER_MACHINE_NAME:-default}
+DOCKER_IP=$(docker-machine ip ${DOCKER_MACHINE_NAME})
 
 #FUNCTIONS
 #------------------------------------------------------------------------------#
