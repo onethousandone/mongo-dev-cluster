@@ -7,6 +7,12 @@ purposes.
 * jsawk
 * mongo shell
 
+## How to run
+```
+export DOCKER_IP=127.0.0.1
+./start-cluster.sh
+```
+
 ## What you get
 This will start 10 docker images:
 
